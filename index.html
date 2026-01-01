@@ -19,14 +19,8 @@
       cursor: pointer;
       margin: 10px;
     }
-    #motywujBtn {
-      background: #22c55e;
-      color: black;
-    }
-    #proBtn {
-      background: gold;
-      color: black;
-    }
+    #motywujBtn { background: #22c55e; }
+    #proBtn { background: gold; }
     #output {
       margin-top: 30px;
       font-size: 20px;
@@ -36,22 +30,29 @@
 </head>
 <body>
 
-  <h1>🔥 Motywator AI</h1>
-  <p>Darmowa wersja: 1 motywacja dziennie</p>
+<h1>🔥 Motywator AI</h1>
+<p>Darmowa wersja: 1 motywacja dziennie</p>
 
-  <button id="motywujBtn" onclick="motywuj()">Motywuj mnie</button>
-  <br/>
-  <button id="proBtn" onclick="goPro()">🔓 Odblokuj PRO</button>
+<button id="motywujBtn" onclick="motywuj()">Motywuj mnie</button>
+<br/>
+<button id="proBtn" onclick="goPro()">🔓 Odblokuj PRO</button>
 
-  <div id="output"></div>
+<div id="output"></div>
 
 <script>
   const isPro = new URLSearchParams(window.location.search).get("pro") === "1";
   const today = new Date().toDateString();
-  const lastUse = localStorage.getItem("lastUse");
+
+  let usedToday = localStorage.getItem("usedToday");
+
+  if (localStorage.getItem("usedDate") !== today) {
+    localStorage.removeItem("usedToday");
+    localStorage.setItem("usedDate", today);
+    usedToday = null;
+  }
 
   function motywuj() {
-    if (!isPro && lastUse === today) {
+    if (!isPro && usedToday) {
       document.getElementById("output").innerText =
         "🔒 Limit dzienny osiągnięty. Odblokuj PRO.";
       return;
@@ -60,21 +61,23 @@
     const texts = [
       "Działaj dziś – jutro podziękujesz sobie za ten krok.",
       "Masz w sobie więcej siły, niż myślisz.",
-      "Każdy dzień to nowa szansa, wykorzystaj ją.",
+      "Każdy dzień to nowa szansa.",
       "Nie czekaj na idealny moment. Stwórz go.",
       "Twoja determinacja jest Twoją supermocą."
     ];
 
-    const text = texts[Math.floor(Math.random() * texts.length)];
-    document.getElementById("output").innerText = text;
+    document.getElementById("output").innerText =
+      texts[Math.floor(Math.random() * texts.length)];
 
     if (!isPro) {
-      localStorage.setItem("lastUse", today);
+      localStorage.setItem("usedToday", "1");
+      usedToday = "1";
     }
   }
 
   function goPro() {
-    window.location.href = "https://buy.stripe.com/test_7sY28k3xe0wI9P20b72go00";
+    window.location.href =
+      "https://buy.stripe.com/test_7sY28k3xe0wI9P20b72go00";
   }
 </script>
 
