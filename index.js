@@ -2,27 +2,24 @@ import express from "express";
 import cors from "cors";
 
 const app = express();
-const PORT = process.env.PORT || 10000;
 
 app.use(cors());
 app.use(express.json());
 
+/* ===== TEST ROOT ===== */
 app.get("/", (req, res) => {
   res.send("Backend działa ✅");
 });
 
+/* ===== ENDPOINT TESTOWY ===== */
 app.post("/motywacja", (req, res) => {
-  const teksty = [
-    "Działaj teraz – odkładanie to wróg sukcesu.",
-    "Każdy dzień to nowa szansa. Wykorzystaj ją.",
-    "Nie musisz być idealny. Wystarczy, że będziesz konsekwentny.",
-    "Twoje cele są bliżej, niż myślisz."
-  ];
-
-  const losowy = teksty[Math.floor(Math.random() * teksty.length)];
-  res.json({ text: losowy });
+  res.json({
+    text: "To jest test z backendu 🚀 Backend działa poprawnie."
+  });
 });
 
+/* ===== START SERWERA ===== */
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
-  console.log("Backend działa na porcie " + PORT);
+  console.log("Backend działa na porcie", PORT);
 });
