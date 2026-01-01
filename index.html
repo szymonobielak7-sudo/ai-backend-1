@@ -1,27 +1,31 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>AI Motywator</title>
 </head>
 <body>
-  <h1>🔥 AI Motywator</h1>
-  <button onclick="send()">Zmotywuj mnie</button>
-  <pre id="out"></pre>
 
-  <script>
-    async function send() {
-      const res = await fetch("https://ai-backend-1-rho.vercel.app/api/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          prompt: "Zmotywuj mnie do działania i zarabiania pieniędzy"
-        })
-      });
-      const data = await res.json();
-      document.getElementById("out").innerText =
-        data.choices?.[0]?.message?.content || JSON.stringify(data);
-    }
-  </script>
+<h1>🔥 AI Motywator</h1>
+
+<button onclick="motywuj();">Zmotywuj mnie</button>
+
+<pre id="out"></pre>
+
+<script>
+  const teksty = [
+    "Zrób dziś jedną rzecz, której się boisz.",
+    "Nie czekaj na idealny moment.",
+    "Małe kroki codziennie = wielki efekt.",
+    "Dyscyplina wygrywa z motywacją.",
+    "Zacznij teraz. Potem będzie łatwiej."
+  ];
+
+  function motywuj() {
+    const los = Math.floor(Math.random() * teksty.length);
+    document.getElementById("out").innerText = teksty[los];
+  }
+</script>
+
 </body>
 </html>
