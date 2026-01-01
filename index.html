@@ -2,85 +2,69 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Motywator AI</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generator Motywacji AI</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: white;
-      text-align: center;
-      padding: 40px;
-    }
-    button {
-      padding: 14px 26px;
-      font-size: 18px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      margin: 12px;
-    }
-    #motywujBtn { background: #22c55e; color: black; }
-    #proBtn { background: gold; color: black; }
-    #output {
-      margin-top: 30px;
-      font-size: 20px;
-      min-height: 70px;
-    }
+    body { font-family: Arial; background:#111; color:#fff; text-align:center; padding:40px; }
+    button { padding:12px 20px; font-size:16px; cursor:pointer; }
+    #output { margin-top:20px; font-size:18px; }
+    #blokada { display:none; margin-top:30px; }
+    input { padding:10px; font-size:16px; }
   </style>
 </head>
 <body>
 
-<h1>🔥 Motywator AI</h1>
-<p>Free: 1 motywacja dziennie • PRO: bez limitu</p>
+<h1>🔥 Generator Motywacji</h1>
 
-<button onclick="motywuj()">Motywuj mnie</button><br>
-<button onclick="goPro()">🔓 Odblokuj PRO</button>
-
+<button id="motywujBtn" onclick="motywuj()">Zmotywuj mnie</button>
 <div id="output"></div>
 
+<div id="blokada">
+  <h2>🔒 Wersja PRO</h2>
+  <p>Wpisz kod PRO, aby odblokować</p>
+  <input id="kod" placeholder="Kod PRO">
+  <br><br>
+  <button onclick="odblokuj()">Odblokuj PRO</button>
+  <p id="info"></p>
+</div>
+
 <script>
-  // 🔑 TRWAŁE PRO
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.get("pro") === "1") {
-    localStorage.setItem("isPro", "true");
-  }
+let klik = 0;
+const PRO_KOD = "PRO-2026";
 
-  const isPro = localStorage.getItem("isPro") === "true";
-  const today = new Date().toDateString();
+if (localStorage.getItem("pro") === "true") {
+  document.getElementById("blokada").style.display = "none";
+}
 
-  if (localStorage.getItem("usedDate") !== today) {
-    localStorage.removeItem("usedToday");
-    localStorage.setItem("usedDate", today);
-  }
-
-  function motywuj() {
-    if (!isPro && localStorage.getItem("usedToday")) {
-      document.getElementById("output").innerText =
-        "🔒 Limit dzienny osiągnięty. Odblokuj PRO.";
+function motywuj() {
+  if (localStorage.getItem("pro") !== "true") {
+    klik++;
+    if (klik > 1) {
+      document.getElementById("blokada").style.display = "block";
       return;
     }
-
-    const texts = [
-      "Działaj dziś – jutro podziękujesz sobie za ten krok.",
-      "Masz w sobie więcej siły, niż myślisz.",
-      "Każdy dzień to nowa szansa.",
-      "Nie czekaj na idealny moment. Stwórz go.",
-      "Twoja determinacja jest Twoją supermocą."
-    ];
-
-    document.getElementById("output").innerText =
-      texts[Math.floor(Math.random() * texts.length)];
-
-    if (!isPro) {
-      localStorage.setItem("usedToday", "1");
-    }
   }
 
-  function goPro() {
-    window.location.href =
-      "https://buy.stripe.com/test_aFadR2ebSbbm1iwf612go01";
+  const teksty = [
+    "Działaj teraz – najlepszy moment to TERAZ!",
+    "Każdy dzień to nowa szansa. Wykorzystaj ją!",
+    "Nie zatrzymuj się. Jesteś bliżej niż myślisz.",
+    "Twoja determinacja jest silniejsza niż wymówki."
+  ];
+
+  document.getElementById("output").innerText =
+    teksty[Math.floor(Math.random() * teksty.length)];
+}
+
+function odblokuj() {
+  const wpisany = document.getElementById("kod").value;
+  if (wpisany === PRO_KOD) {
+    localStorage.setItem("pro", "true");
+    document.getElementById("blokada").style.display = "none";
+    document.getElementById("info").innerText = "✅ PRO odblokowane!";
+  } else {
+    document.getElementById("info").innerText = "❌ Zły kod";
   }
+}
 </script>
 
 </body>
