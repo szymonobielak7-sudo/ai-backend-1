@@ -1,38 +1,40 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <title>Generator Motywacji AI</title>
-  <style>
-    body { font-family: Arial; background:#111; color:#fff; text-align:center; padding:40px; }
-    button { padding:12px 20px; font-size:16px; cursor:pointer; }
-    #output { margin-top:20px; font-size:18px; }
-    #blokada { display:none; margin-top:30px; }
-    input { padding:10px; font-size:16px; }
-  </style>
+<meta charset="UTF-8">
+<title>Generator Motywacji AI</title>
+<style>
+body { font-family: Arial; background:#111; color:#fff; text-align:center; padding:40px; }
+button { padding:12px 20px; font-size:16px; cursor:pointer; }
+#output { margin-top:20px; font-size:18px; }
+#blokada { display:none; margin-top:30px; }
+</style>
 </head>
 <body>
 
 <h1>🔥 Generator Motywacji</h1>
 
-<button id="motywujBtn" onclick="motywuj()">Zmotywuj mnie</button>
+<button onclick="motywuj()">Zmotywuj mnie</button>
 <div id="output"></div>
 
 <div id="blokada">
   <h2>🔒 Wersja PRO</h2>
-  <p>Wpisz kod PRO, aby odblokować</p>
-  <input id="kod" placeholder="Kod PRO">
-  <br><br>
-  <button onclick="odblokuj()">Odblokuj PRO</button>
-  <p id="info"></p>
+  <p>Pełny dostęp po zakupie</p>
+  <a href="https://buy.stripe.com/test_aFadR2ebSbbm1iwf612go01">
+    <button>Kup PRO</button>
+  </a>
 </div>
 
 <script>
 let klik = 0;
-const PRO_KOD = "PRO-2026";
+const DOZWOLONY_KOD = "PRO-2026";
 
-if (localStorage.getItem("pro") === "true") {
-  document.getElementById("blokada").style.display = "none";
+const params = new URLSearchParams(window.location.search);
+const kod = params.get("pro");
+
+if (kod === DOZWOLONY_KOD) {
+  localStorage.setItem("pro", "true");
+  history.replaceState({}, document.title, "/ai-backend-1/");
 }
 
 function motywuj() {
@@ -48,22 +50,12 @@ function motywuj() {
     "Działaj teraz – najlepszy moment to TERAZ!",
     "Każdy dzień to nowa szansa. Wykorzystaj ją!",
     "Nie zatrzymuj się. Jesteś bliżej niż myślisz.",
-    "Twoja determinacja jest silniejsza niż wymówki."
+    "Twoja determinacja jest silniejsza niż wymówki.",
+    "Masz wszystko, czego potrzebujesz, by wygrać."
   ];
 
   document.getElementById("output").innerText =
     teksty[Math.floor(Math.random() * teksty.length)];
-}
-
-function odblokuj() {
-  const wpisany = document.getElementById("kod").value;
-  if (wpisany === PRO_KOD) {
-    localStorage.setItem("pro", "true");
-    document.getElementById("blokada").style.display = "none";
-    document.getElementById("info").innerText = "✅ PRO odblokowane!";
-  } else {
-    document.getElementById("info").innerText = "❌ Zły kod";
-  }
 }
 </script>
 
