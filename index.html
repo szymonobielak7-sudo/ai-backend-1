@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Motywator AI</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -33,3 +33,54 @@
     }
   </style>
 </head>
+<body>
+
+<h1>🔥 Motywator AI</h1>
+<p>Free: 1 motywacja dziennie • PRO: bez limitu</p>
+
+<button id="motywujBtn" onclick="motywuj()">Motywuj mnie</button><br>
+<button id="proBtn" onclick="goPro()">🔓 Odblokuj PRO</button>
+
+<div id="output"></div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const isPro = params.get("pro") === "1";
+  const today = new Date().toDateString();
+
+  if (localStorage.getItem("usedDate") !== today) {
+    localStorage.removeItem("usedToday");
+    localStorage.setItem("usedDate", today);
+  }
+
+  function motywuj() {
+    if (!isPro && localStorage.getItem("usedToday")) {
+      document.getElementById("output").innerText =
+        "🔒 Limit dzienny osiągnięty. Odblokuj PRO.";
+      return;
+    }
+
+    const texts = [
+      "Działaj dziś – jutro podziękujesz sobie za ten krok.",
+      "Masz w sobie więcej siły, niż myślisz.",
+      "Każdy dzień to nowa szansa. Wykorzystaj ją.",
+      "Nie czekaj na idealny moment. Stwórz go.",
+      "Twoja determinacja jest Twoją supermocą."
+    ];
+
+    document.getElementById("output").innerText =
+      texts[Math.floor(Math.random() * texts.length)];
+
+    if (!isPro) {
+      localStorage.setItem("usedToday", "1");
+    }
+  }
+
+  function goPro() {
+    window.location.href =
+      "https://buy.stripe.com/test_aFadR2ebSbbm1iwf612go01";
+  }
+</script>
+
+</body>
+</html>
