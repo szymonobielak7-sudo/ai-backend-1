@@ -1,80 +1,82 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Motywator AI</title>
   <style>
     body {
       font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
       text-align: center;
       padding: 40px;
-      background: #f5f5f5;
     }
     button {
-      padding: 15px 25px;
+      padding: 14px 24px;
       font-size: 18px;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
-      margin-top: 20px;
+      margin: 10px;
+    }
+    #motywujBtn {
+      background: #22c55e;
+      color: black;
+    }
+    #proBtn {
+      background: gold;
+      color: black;
     }
     #output {
       margin-top: 30px;
       font-size: 20px;
-    }
-    .pro-btn {
-      background: #000;
-      color: #fff;
-      border: none;
-      padding: 15px 30px;
-      font-size: 18px;
-      margin-top: 25px;
+      min-height: 60px;
     }
   </style>
 </head>
-
 <body>
 
-  <h1>Motywator AI 💪</h1>
+  <h1>🔥 Motywator AI</h1>
+  <p>Darmowa wersja: 1 motywacja dziennie</p>
 
   <button id="motywujBtn" onclick="motywuj()">Motywuj mnie</button>
+  <br/>
+  <button id="proBtn" onclick="goPro()">🔓 Odblokuj PRO</button>
 
   <div id="output"></div>
 
-  <script>
-    let clicks = 0; // 🔥 LICZNIK W RAM
+<script>
+  const isPro = new URLSearchParams(window.location.search).get("pro") === "1";
+  const today = new Date().toDateString();
+  const lastUse = localStorage.getItem("lastUse");
 
-    async function motywuj() {
-      const btn = document.getElementById("motywujBtn");
-      const output = document.getElementById("output");
-
-      if (clicks >= 1) {
-        output.innerHTML = `
-          🔒 <b>Dostęp zablokowany</b><br><br>
-          Odblokuj wersję <b>PRO</b>, aby korzystać dalej.<br><br>
-          <button class="pro-btn" onclick="alert('PRO – wkrótce 💰')">
-            Odblokuj PRO
-          </button>
-        `;
-        return;
-      }
-
-      clicks++; // 👈 PIERWSZE KLIKNIĘCIE
-
-      btn.disabled = true;
-      output.innerText = "Łączę się z AI...";
-
-      try {
-        const res = await fetch("https://ai-backend-api-9grn.onrender.com/motywacja", {
-          method: "POST"
-        });
-        const data = await res.json();
-        output.innerText = data.text || "Gotowe 💪";
-      } catch (e) {
-        output.innerText = "⚠️ AI się uruchamia – spróbuj za chwilę";
-      }
-
-      btn.disabled = false;
+  function motywuj() {
+    if (!isPro && lastUse === today) {
+      document.getElementById("output").innerText =
+        "🔒 Limit dzienny osiągnięty. Odblokuj PRO.";
+      return;
     }
-  </script>
+
+    const texts = [
+      "Działaj dziś – jutro podziękujesz sobie za ten krok.",
+      "Masz w sobie więcej siły, niż myślisz.",
+      "Każdy dzień to nowa szansa, wykorzystaj ją.",
+      "Nie czekaj na idealny moment. Stwórz go.",
+      "Twoja determinacja jest Twoją supermocą."
+    ];
+
+    const text = texts[Math.floor(Math.random() * texts.length)];
+    document.getElementById("output").innerText = text;
+
+    if (!isPro) {
+      localStorage.setItem("lastUse", today);
+    }
+  }
+
+  function goPro() {
+    window.location.href = "https://buy.stripe.com/test_7sY28k3xe0wI9P20b72go00";
+  }
+</script>
 
 </body>
 </html>
