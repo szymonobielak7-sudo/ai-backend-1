@@ -32,15 +32,13 @@
 
   <script>
     const LIMIT = 1;
-    const STORAGE_KEY = "motywuj_count";
+    let used = sessionStorage.getItem("used") === "true";
 
     async function motywuj() {
       const btn = document.getElementById("motywujBtn");
       const output = document.getElementById("output");
 
-      let count = parseInt(localStorage.getItem(STORAGE_KEY)) || 0;
-
-      if (count >= LIMIT) {
+      if (used) {
         output.innerHTML = `
           🔒 <b>Limit darmowy wykorzystany</b><br><br>
           Odblokuj wersję <b>PRO</b>, aby korzystać bez limitu 🚀
@@ -48,21 +46,21 @@
         return;
       }
 
-      // 🔥 LICZNIK ZWIĘKSZAMY OD RAZU
-      localStorage.setItem(STORAGE_KEY, count + 1);
+      // 🔥 BLOKUJEMY NATYCHMIAST
+      used = true;
+      sessionStorage.setItem("used", "true");
 
       btn.disabled = true;
-      output.innerText = "Łączę się z AI... (pierwsze uruchomienie może potrwać)";
+      output.innerText = "Łączę się z AI...";
 
       try {
         const res = await fetch("https://ai-backend-api-9grn.onrender.com/motywacja", {
           method: "POST"
         });
-
         const data = await res.json();
         output.innerText = data.text || "Gotowe 💪";
-      } catch (e) {
-        output.innerText = "⚠️ AI się budzi – spróbuj za chwilę";
+      } catch {
+        output.innerText = "⚠️ AI się budzi – spróbuj później";
       }
 
       btn.disabled = false;
