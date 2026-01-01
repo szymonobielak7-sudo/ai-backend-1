@@ -14,10 +14,19 @@
       padding: 15px 25px;
       font-size: 18px;
       cursor: pointer;
+      margin-top: 20px;
     }
     #output {
       margin-top: 30px;
       font-size: 20px;
+    }
+    .pro-btn {
+      background: #000;
+      color: #fff;
+      border: none;
+      padding: 15px 30px;
+      font-size: 18px;
+      margin-top: 25px;
     }
   </style>
 </head>
@@ -26,46 +35,4 @@
 
   <h1>Motywator AI 💪</h1>
 
-  <button id="motywujBtn" onclick="motywuj()">Motywuj mnie</button>
-
-  <p id="output"></p>
-
-  <script>
-    const LIMIT = 1;
-    let used = sessionStorage.getItem("used") === "true";
-
-    async function motywuj() {
-      const btn = document.getElementById("motywujBtn");
-      const output = document.getElementById("output");
-
-      if (used) {
-        output.innerHTML = `
-          🔒 <b>Limit darmowy wykorzystany</b><br><br>
-          Odblokuj wersję <b>PRO</b>, aby korzystać bez limitu 🚀
-        `;
-        return;
-      }
-
-      // 🔥 BLOKUJEMY NATYCHMIAST
-      used = true;
-      sessionStorage.setItem("used", "true");
-
-      btn.disabled = true;
-      output.innerText = "Łączę się z AI...";
-
-      try {
-        const res = await fetch("https://ai-backend-api-9grn.onrender.com/motywacja", {
-          method: "POST"
-        });
-        const data = await res.json();
-        output.innerText = data.text || "Gotowe 💪";
-      } catch {
-        output.innerText = "⚠️ AI się budzi – spróbuj później";
-      }
-
-      btn.disabled = false;
-    }
-  </script>
-
-</body>
-</html>
+  <button
