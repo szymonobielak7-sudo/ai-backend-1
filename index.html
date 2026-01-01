@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Motywator AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -11,47 +12,60 @@
       text-align: center;
       padding: 40px;
     }
+    h1 {
+      margin-bottom: 10px;
+    }
+    p {
+      opacity: 0.9;
+    }
     button {
-      padding: 14px 24px;
+      padding: 14px 26px;
       font-size: 18px;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
-      margin: 10px;
+      margin: 12px;
     }
-    #motywujBtn { background: #22c55e; }
-    #proBtn { background: gold; }
+    #motywujBtn {
+      background: #22c55e;
+      color: black;
+    }
+    #proBtn {
+      background: gold;
+      color: black;
+    }
     #output {
       margin-top: 30px;
       font-size: 20px;
-      min-height: 60px;
+      min-height: 70px;
     }
   </style>
 </head>
 <body>
 
 <h1>🔥 Motywator AI</h1>
-<p>Darmowa wersja: 1 motywacja dziennie</p>
+<p>Free: 1 motywacja dziennie • PRO: bez limitu</p>
 
-<button id="motywujBtn" onclick="motywuj()">Motywuj mnie</button>
-<br/>
+<button id="motywujBtn" onclick="motywuj()">Motywuj mnie</button><br/>
 <button id="proBtn" onclick="goPro()">🔓 Odblokuj PRO</button>
 
 <div id="output"></div>
 
 <script>
+  // PRO jeśli wróciło z Stripe
   const isPro = new URLSearchParams(window.location.search).get("pro") === "1";
+
   const today = new Date().toDateString();
 
-  let usedToday = localStorage.getItem("usedToday");
-
+  // reset dzienny
   if (localStorage.getItem("usedDate") !== today) {
     localStorage.removeItem("usedToday");
     localStorage.setItem("usedDate", today);
-    usedToday = null;
   }
 
   function motywuj() {
+    const usedToday = localStorage.getItem("usedToday");
+
     if (!isPro && usedToday) {
       document.getElementById("output").innerText =
         "🔒 Limit dzienny osiągnięty. Odblokuj PRO.";
@@ -61,25 +75,6 @@
     const texts = [
       "Działaj dziś – jutro podziękujesz sobie za ten krok.",
       "Masz w sobie więcej siły, niż myślisz.",
-      "Każdy dzień to nowa szansa.",
+      "Każdy dzień to nowa szansa. Wykorzystaj ją.",
       "Nie czekaj na idealny moment. Stwórz go.",
-      "Twoja determinacja jest Twoją supermocą."
-    ];
-
-    document.getElementById("output").innerText =
-      texts[Math.floor(Math.random() * texts.length)];
-
-    if (!isPro) {
-      localStorage.setItem("usedToday", "1");
-      usedToday = "1";
-    }
-  }
-
-  function goPro() {
-    window.location.href =
-      "https://buy.stripe.com/test_7sY28k3xe0wI9P20b72go00";
-  }
-</script>
-
-</body>
-</html>
+      "Twoja determinacja jest Twoją supermocą
