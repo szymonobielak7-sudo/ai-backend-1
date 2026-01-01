@@ -29,3 +29,28 @@
 
 </body>
 </html>
+<button id="motywujBtn" onclick="motywuj()">Motywuj</button>
+<div id="output" style="margin-top:16px;font-size:18px;"></div>
+
+<script>
+  async function motywuj() {
+    const btn = document.getElementById("motywujBtn");
+    const output = document.getElementById("output");
+
+    btn.disabled = true;
+    output.innerText = "Łączę się z AI... (pierwsze uruchomienie może potrwać)";
+
+    try {
+      const res = await fetch("https://ai-backend-api-9grn.onrender.com/motywacja", {
+        method: "POST"
+      });
+
+      const data = await res.json();
+      output.innerText = data.text;
+    } catch (e) {
+      output.innerText = "Błąd połączenia z AI.";
+    }
+
+    btn.disabled = false;
+  }
+</script>
