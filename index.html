@@ -2,62 +2,111 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
-<title>Generator Motywacji AI</title>
+<title>Generator Motywacji PRO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-body { font-family: Arial; background:#111; color:#fff; text-align:center; padding:40px; }
-button { padding:12px 20px; font-size:16px; cursor:pointer; }
-#output { margin-top:20px; font-size:18px; }
-#blokada { display:none; margin-top:30px; }
+body {
+  margin:0;
+  font-family: Arial, sans-serif;
+  background:#0f0f0f;
+  color:#fff;
+  text-align:center;
+}
+section {
+  padding:50px 20px;
+}
+h1 {
+  font-size:32px;
+}
+h2 {
+  margin-top:40px;
+}
+p {
+  font-size:18px;
+  max-width:700px;
+  margin:20px auto;
+}
+.btn {
+  display:inline-block;
+  margin:15px;
+  padding:15px 28px;
+  font-size:18px;
+  text-decoration:none;
+  color:#fff;
+  background:#ff4d00;
+  border-radius:8px;
+}
+.btn.secondary {
+  background:#333;
+}
+.box {
+  background:#1a1a1a;
+  border-radius:10px;
+  padding:30px;
+  max-width:800px;
+  margin:40px auto;
+}
+ul {
+  text-align:left;
+  max-width:600px;
+  margin:20px auto;
+  font-size:17px;
+}
+li {
+  margin-bottom:10px;
+}
+footer {
+  font-size:14px;
+  opacity:0.6;
+  margin-top:40px;
+}
 </style>
 </head>
 <body>
 
-<h1>🔥 Generator Motywacji</h1>
+<section>
+  <h1>🔥 Generator Motywacji PRO</h1>
+  <p>
+    Brakuje Ci energii, motywacji lub impulsu do działania?  
+    Ten generator daje Ci **krótkie, mocne komunikaty**, które pomagają ruszyć z miejsca.
+  </p>
 
-<button onclick="motywuj()">Zmotywuj mnie</button>
-<div id="output"></div>
-
-<div id="blokada">
-  <h2>🔒 Wersja PRO</h2>
-  <p>Pełny dostęp po zakupie</p>
-  <a href="https://buy.stripe.com/test_aFadR2ebSbbm1iwf612go01">
-    <button>Kup PRO</button>
+  <a class="btn" href="https://buy.stripe.com/test_aFadR2ebSbbm1iwf612go01">
+    🚀 Odblokuj PRO
   </a>
-</div>
 
-<script>
-let klik = 0;
-const DOZWOLONY_KOD = "PRO-2026";
+  <a class="btn secondary" href="https://szymonobielak7-sudo.github.io/ai-backend-1/">
+    👉 Wypróbuj za darmo
+  </a>
+</section>
 
-const params = new URLSearchParams(window.location.search);
-const kod = params.get("pro");
+<section class="box">
+  <h2>Co dostajesz w wersji PRO?</h2>
+  <ul>
+    <li>✅ Nielimitowane generowanie motywacji</li>
+    <li>✅ Brak blokad i limitów</li>
+    <li>✅ Dostęp 24/7</li>
+    <li>✅ Działa na telefonie i komputerze</li>
+    <li>✅ Odblokowanie automatyczne po zakupie</li>
+  </ul>
+</section>
 
-if (kod === DOZWOLONY_KOD) {
-  localStorage.setItem("pro", "true");
-  history.replaceState({}, document.title, "/ai-backend-1/");
-}
+<section>
+  <h2>Dla kogo?</h2>
+  <p>
+    • jeśli odkładasz rzeczy na później  
+    • jeśli potrzebujesz „kopa” do działania  
+    • jeśli chcesz codziennej motywacji bez aplikacji  
+  </p>
 
-function motywuj() {
-  if (localStorage.getItem("pro") !== "true") {
-    klik++;
-    if (klik > 1) {
-      document.getElementById("blokada").style.display = "block";
-      return;
-    }
-  }
+  <a class="btn" href="https://buy.stripe.com/test_aFadR2ebSbbm1iwf612go01">
+    🔓 Kup dostęp PRO
+  </a>
+</section>
 
-  const teksty = [
-    "Działaj teraz – najlepszy moment to TERAZ!",
-    "Każdy dzień to nowa szansa. Wykorzystaj ją!",
-    "Nie zatrzymuj się. Jesteś bliżej niż myślisz.",
-    "Twoja determinacja jest silniejsza niż wymówki.",
-    "Masz wszystko, czego potrzebujesz, by wygrać."
-  ];
-
-  document.getElementById("output").innerText =
-    teksty[Math.floor(Math.random() * teksty.length)];
-}
-</script>
+<footer>
+  © 2026 Generator Motywacji PRO
+</footer>
 
 </body>
 </html>
