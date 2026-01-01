@@ -35,4 +35,46 @@
 
   <h1>Motywator AI 💪</h1>
 
-  <button
+  <button id="motywujBtn" onclick="motywuj()">Motywuj mnie</button>
+
+  <div id="output"></div>
+
+  <script>
+    let clicks = 0; // 🔥 LICZNIK W RAM
+
+    async function motywuj() {
+      const btn = document.getElementById("motywujBtn");
+      const output = document.getElementById("output");
+
+      if (clicks >= 1) {
+        output.innerHTML = `
+          🔒 <b>Dostęp zablokowany</b><br><br>
+          Odblokuj wersję <b>PRO</b>, aby korzystać dalej.<br><br>
+          <button class="pro-btn" onclick="alert('PRO – wkrótce 💰')">
+            Odblokuj PRO
+          </button>
+        `;
+        return;
+      }
+
+      clicks++; // 👈 PIERWSZE KLIKNIĘCIE
+
+      btn.disabled = true;
+      output.innerText = "Łączę się z AI...";
+
+      try {
+        const res = await fetch("https://ai-backend-api-9grn.onrender.com/motywacja", {
+          method: "POST"
+        });
+        const data = await res.json();
+        output.innerText = data.text || "Gotowe 💪";
+      } catch (e) {
+        output.innerText = "⚠️ AI się uruchamia – spróbuj za chwilę";
+      }
+
+      btn.disabled = false;
+    }
+  </script>
+
+</body>
+</html>
