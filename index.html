@@ -12,9 +12,6 @@
       text-align: center;
       padding: 40px;
     }
-    h1 { margin-bottom: 10px; }
-    p { opacity: 0.9; }
-
     button {
       padding: 14px 26px;
       font-size: 18px;
@@ -25,7 +22,6 @@
     }
     #motywujBtn { background: #22c55e; color: black; }
     #proBtn { background: gold; color: black; }
-
     #output {
       margin-top: 30px;
       font-size: 20px;
@@ -38,14 +34,19 @@
 <h1>🔥 Motywator AI</h1>
 <p>Free: 1 motywacja dziennie • PRO: bez limitu</p>
 
-<button id="motywujBtn" onclick="motywuj()">Motywuj mnie</button><br>
-<button id="proBtn" onclick="goPro()">🔓 Odblokuj PRO</button>
+<button onclick="motywuj()">Motywuj mnie</button><br>
+<button onclick="goPro()">🔓 Odblokuj PRO</button>
 
 <div id="output"></div>
 
 <script>
-  const params = new URLSearchParams(window.location.search);
-  const isPro = params.get("pro") === "1";
+  // 🔑 TRWAŁE PRO
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get("pro") === "1") {
+    localStorage.setItem("isPro", "true");
+  }
+
+  const isPro = localStorage.getItem("isPro") === "true";
   const today = new Date().toDateString();
 
   if (localStorage.getItem("usedDate") !== today) {
@@ -63,7 +64,7 @@
     const texts = [
       "Działaj dziś – jutro podziękujesz sobie za ten krok.",
       "Masz w sobie więcej siły, niż myślisz.",
-      "Każdy dzień to nowa szansa. Wykorzystaj ją.",
+      "Każdy dzień to nowa szansa.",
       "Nie czekaj na idealny moment. Stwórz go.",
       "Twoja determinacja jest Twoją supermocą."
     ];
