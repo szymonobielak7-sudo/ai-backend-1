@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <title>🔥 AI Motywator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+  <h1>🔥 AI Motywator</h1>
+
+  <button id="motywujBtn" onclick="motywuj()">Zmotywuj mnie</button>
+
+  <pre id="output"></pre>
+
+  <script>
+    async function motywuj() {
+      const btn = document.getElementById("motywujBtn");
+      const output = document.getElementById("output");
+
+      btn.disabled = true;
+      output.innerText = "Łączę się z AI...";
+
+      try {
+        const res = await fetch("https://ai-backend-api-1.onrender.com/motywacja", {
+          method: "POST"
+        });
+
+        const data = await res.json();
+        output.innerText = data.text;
+      } catch (e) {
+        output.innerText = "Błąd połączenia z backendem.";
+      }
+
+      btn.disabled = false;
+    }
+  </script>
+
+</body>
+</html>
