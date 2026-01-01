@@ -7,9 +7,21 @@ const app = express();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 app.use(cors());
+app.use(express.json());
+
+// 🔥 ODPOWIEDŹ NA KAŻDE WEJŚCIE
+app.use((req, res, next) => {
+  console.log("Request:", req.method, req.url);
+  next();
+});
 
 app.get("/", (req, res) => {
-  res.send("Backend działa ✅");
+  res.status(200).send("Backend działa ✅");
+});
+
+// 🔥 fallback – jeśli Render/Android pyta inaczej
+app.get("*", (req, res) => {
+  res.status(200).send("Backend działa ✅");
 });
 
 app.post(
@@ -26,7 +38,8 @@ app.post(
         process.env.STRIPE_WEBHOOK_SECRET
       );
     } catch (err) {
-      return res.status(400).send(`Webhook error: ${err.message}`);
+      console.error("Webhook error:", err.message);
+      return res.status(400).send("Webhook error");
     }
 
     if (event.type === "checkout.session.completed") {
@@ -37,7 +50,7 @@ app.post(
   }
 );
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
-  console.log("Server działa na porcie", PORT);
+  console.log("Backend działa na porcie", PORT);
 });
